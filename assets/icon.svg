@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Cobra Neon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071a24"/>
+      <stop offset="1" stop-color="#031017"/>
+    </linearGradient>
+    <linearGradient id="snake" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#0b8f78"/>
+      <stop offset=".52" stop-color="#46f5a4"/>
+      <stop offset="1" stop-color="#66e5ff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".4" r=".7">
+      <stop offset="0" stop-color="#46f5a4" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#46f5a4" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+  </defs>
+  <rect width="256" height="256" rx="60" fill="url(#bg)"/>
+  <rect x="7" y="7" width="242" height="242" rx="54" fill="none" stroke="#a9ffe0" stroke-opacity=".14" stroke-width="2"/>
+  <circle cx="128" cy="112" r="104" fill="url(#glow)"/>
+  <path d="M188 194v-41c0-25-18-43-43-43h-30c-25 0-43-18-43-43" fill="none" stroke="#46f5a4" stroke-opacity=".32" stroke-width="34" stroke-linecap="round" filter="url(#soft)"/>
+  <path d="M188 194v-41c0-25-18-43-43-43h-30c-25 0-43-18-43-43" fill="none" stroke="url(#snake)" stroke-width="28" stroke-linecap="round"/>
+  <path d="M188 194v-41c0-25-18-43-43-43h-30c-25 0-43-18-43-43" fill="none" stroke="#eafff6" stroke-opacity=".22" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="72" cy="67" r="25" fill="url(#snake)"/>
+  <circle cx="72" cy="67" r="22" fill="#5cf7c0"/>
+  <circle cx="65" cy="61" r="5.5" fill="#06212b"/>
+  <circle cx="80" cy="61" r="5.5" fill="#06212b"/>
+  <circle cx="66.8" cy="59.2" r="1.8" fill="#ffffff"/>
+  <circle cx="81.8" cy="59.2" r="1.8" fill="#ffffff"/>
+  <path d="M47 70h-13m13 0-6 6m6-6-6-6" fill="none" stroke="#ff5f8a" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="172" cy="206" r="4" fill="#ffd36b"/>
+  <circle cx="198" cy="176" r="3" fill="#ffd36b" fill-opacity=".6"/>
+</svg>

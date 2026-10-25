@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#06131c">
+  <meta name="description" content="Cobra Neon é um jogo da cobrinha 2D com 10 fases, portais, drones e controles de toque para celular e tablet.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Cobra Neon — Jogo da Cobrinha</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb orb-one"></span>
+    <span class="ambient-orb orb-two"></span>
+    <span class="ambient-grid"></span>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-icon" src="assets/icon.svg" width="34" height="34" alt="">
+        <div class="brand-copy">
+          <span class="brand-kicker">ARCADE 2D</span>
+          <span class="brand-name">COBRA <b>NEON</b></span>
+        </div>
+      </div>
+
+      <div class="scoreboard" aria-label="Placar">
+        <div class="stat">
+          <span>PONTOS</span>
+          <strong id="score">000000</strong>
+        </div>
+        <div class="stat best-stat">
+          <span>RECORDE</span>
+          <strong id="best">000000</strong>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" id="sound-btn" type="button" aria-label="Desativar som" aria-pressed="true">
+          <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/>
+            <path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/>
+            <path d="m16 9 5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="icon-btn" id="pause-btn" type="button" aria-label="Pausar jogo" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="6.5" y="5" width="3.6" height="14" rx="1.2" fill="currentColor"/>
+            <rect x="13.9" y="5" width="3.6" height="14" rx="1.2" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="levelbar" aria-label="Progresso da fase">
+      <div class="level-meta">
+        <span class="level-badge" id="level-badge">FASE 01</span>
+        <strong id="level-name">Primeiro Bote</strong>
+        <span class="mechanic-tag" id="mechanic-tag" hidden></span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-track" id="progress-track" role="progressbar" aria-label="Núcleos coletados" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0">
+          <div class="fruit-pips" id="fruit-pips"></div>
+        </div>
+        <div class="progress-numbers">
+          <span id="progress-count">0/5</span>
+          <span class="combo-badge" id="combo-badge" hidden>x1</span>
+        </div>
+      </div>
+    </section>
+
+    <main class="stage" id="stage">
+      <div class="board-shell" id="board-shell">
+        <canvas id="board" role="img" aria-label="Tabuleiro do jogo da cobrinha">Seu navegador não suporta canvas.</canvas>
+        <div class="board-scanlines" aria-hidden="true"></div>
+        <div class="board-vignette" aria-hidden="true"></div>
+        <div class="level-toast" id="level-toast" aria-hidden="true">
+          <span class="toast-kicker" id="toast-kicker">FASE 01</span>
+          <strong id="toast-title">COMECE A CAÇAR</strong>
+        </div>
+      </div>
+    </main>
+
+    <footer class="controls">
+      <div class="dpad" id="dpad" aria-label="Controle direcional">
+        <button class="dpad-btn dpad-up" type="button" data-dir="up" aria-label="Mover para cima">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 14 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dpad-btn dpad-left" type="button" data-dir="left" aria-label="Mover para a esquerda">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="dpad-core" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <button class="dpad-btn dpad-right" type="button" data-dir="right" aria-label="Mover para a direita">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dpad-btn dpad-down" type="button" data-dir="down" aria-label="Mover para baixo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 10 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="control-copy">
+        <p class="hint-touch">Deslize no tabuleiro ou use o direcional.</p>
+        <p class="hint-desktop"><kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> ou <kbd>WASD</kbd> mover <span>/</span> <kbd>Espaço</kbd> pausar <span>/</span> <kbd>R</kbd> reiniciar</p>
+        <p class="hint-goal" id="hint-goal">Coma os núcleos e não encoste em nada.</p>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal" id="screen-title" role="dialog" aria-modal="true" aria-labelledby="title-heading">
+    <div class="modal-card title-card">
+      <p class="eyebrow">JOGO DA COBRINHA · 10 FASES</p>
+      <div class="title-lockup">
+        <span class="title-emblem" aria-hidden="true">
+          <img src="assets/icon.svg" alt="" width="76" height="76">
+        </span>
+        <h1 id="title-heading">
+          <span>COBRA</span>
+          <span class="title-gradient">NEON</span>
+        </h1>
+      </div>
+      <p class="title-copy">Uma cobra, dez setores e nenhuma margem para erro. Colete núcleos, atravesse portais e escape das sentinelas.</p>
+
+      <div class="title-meta">
+        <div><span>RECORDE</span><strong id="title-best">000000</strong></div>
+        <div><span>CONCLUÍDAS</span><strong><b id="title-complete">0</b>/10</strong></div>
+        <div><span>CONTROLE</span><strong>TOQUE</strong></div>
+      </div>
+
+      <button class="btn btn-primary btn-start" id="start-btn" type="button" aria-label="Start game">
+        <span>JOGAR</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <p class="start-phase" id="start-phase">FASE 01 · PRIMEIRO BOTE</p>
+      <button class="btn btn-ghost" id="levels-btn" type="button">Selecionar fase</button>
+
+      <ul class="title-features">
+        <li><span class="feature-dot"></span>10 fases com dificuldade crescente</li>
+        <li><span class="feature-dot"></span>Portais, obstáculos e drones</li>
+        <li><span class="feature-dot"></span>Swipe, direcional e teclado</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal" id="screen-levels" role="dialog" aria-modal="true" aria-labelledby="levels-heading" hidden>
+    <div class="modal-card levels-card">
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">MAPA DA JORNADA</p>
+          <h2 id="levels-heading">Escolha a fase</h2>
+        </div>
+        <button class="icon-btn" id="levels-close" type="button" aria-label="Voltar ao título">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <p class="modal-copy">Conclua uma fase para liberar a próxima. Fases concluídas podem ser jogadas de novo.</p>
+      <div class="level-grid" id="level-grid"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="overlay-pause" role="dialog" aria-modal="true" aria-labelledby="pause-heading" hidden>
+    <div class="modal-card modal-compact">
+      <p class="eyebrow">INTERVALO TÁTICO</p>
+      <h2 id="pause-heading">Pausa</h2>
+      <p class="modal-copy" id="pause-copy">Respire. A selva espera.</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="resume-btn" type="button">Continuar</button>
+        <button class="btn btn-ghost" id="restart-btn" type="button">Reiniciar fase</button>
+        <button class="btn btn-text" id="quit-btn" type="button">Voltar ao menu</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="overlay-result" role="dialog" aria-modal="true" aria-labelledby="result-heading" hidden>
+    <div class="modal-card result-card">
+      <div class="result-emblem" aria-hidden="true">
+        <span id="result-symbol">01</span>
+      </div>
+      <p class="eyebrow" id="result-kicker">FASE CONCLUÍDA</p>
+      <h2 id="result-heading">Setor dominado</h2>
+      <p class="modal-copy" id="result-copy">A cobra avançou para o próximo desafio.</p>
+      <div class="result-stats">
+        <div><span>PONTOS</span><strong id="result-score">000000</strong></div>
+        <div><span>NÚCLEOS</span><strong id="result-fruits">5/5</strong></div>
+        <div><span>RECORDE</span><strong id="result-best">000000</strong></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="result-primary" type="button">Próxima fase</button>
+        <button class="btn btn-ghost" id="result-secondary" type="button">Repetir fase</button>
+        <button class="btn btn-text" id="result-menu" type="button">Menu principal</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sr-only" id="live-status" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">Ative o JavaScript para jogar a Cobra Neon.</p></noscript>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "Cobra Neon — Jogo da Cobrinha",
+  "short_name": "Cobra Neon",
+  "description": "Jogo da cobrinha 2D com 10 fases, portais e drones. Feito para celular e tablet.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#041017",
+  "theme_color": "#06131c",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

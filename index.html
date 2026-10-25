@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#05060b" />
+    <meta name="description" content="Crier 3D — a spooky-cute 3D scare game for phone, tablet and desktop. Scream, scare the wanderers, and break the curse before dawn." />
+    <title>CRIER 3D — Every Fear Has a Name</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23f2f1ea' d='M32 4c13 0 21 10 21 23v27l-7-7-7 7-7-7-7 7-7-7-6 7V27C11 14 19 4 32 4z'/%3E%3Ccircle cx='24' cy='28' r='4' fill='%23ff2038'/%3E%3Ccircle cx='40' cy='28' r='4' fill='%23ff2038'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <canvas id="scene" aria-label="Crier 3D game scene"></canvas>
+    <div id="dangerVignette" class="danger-vignette"></div>
+    <div id="flash" class="flash"></div>
+
+    <div id="loading" class="loading">
+      <div class="loading-mark">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 4c13 0 21 10 21 23v27l-7-7-7 7-7-7-7 7-7-7-6 7V27C11 14 19 4 32 4z" />
+          <circle cx="24" cy="28" r="4" />
+          <circle cx="40" cy="28" r="4" />
+        </svg>
+      </div>
+      <div class="loading-title">CRIER</div>
+      <div class="loading-sub">SUMMONING THE NIGHT</div>
+      <div class="loading-bar"><span></span></div>
+    </div>
+
+    <main id="menu" class="screen menu">
+      <div class="menu-grain"></div>
+      <header class="menu-top">
+        <div class="menu-stamp">
+          <span class="stamp-dot"></span>
+          HOLLOW HILL / NIGHT 01
+        </div>
+        <button class="icon-btn sound-toggle" data-sound aria-label="Toggle sound">
+          <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm-2.5-8v2.2A6.5 6.5 0 0 1 18.5 12a6.5 6.5 0 0 1-4.5 5.8V20a8.5 8.5 0 0 0 0-16z"/></svg>
+          <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm15.6 3 2.1-2.1-1.4-1.4-2.1 2.1-2.1-2.1-1.4 1.4 2.1 2.1-2.1 2.1 1.4 1.4 2.1-2.1 2.1 2.1 1.4-1.4-2.1-2.1z"/></svg>
+        </button>
+      </header>
+
+      <div class="menu-copy">
+        <div class="kicker">A LITTLE NIGHTMARE BY HALLOW HILL</div>
+        <h1 class="logo-lockup">
+          <span class="logo-word">CRIER</span>
+          <span class="logo-badge">3D</span>
+        </h1>
+        <div class="tagline"><span></span>EVERY FEAR HAS A NAME<span></span></div>
+        <p class="lede">
+          You are the ghost in the graveyard. The wanderers have trespassed on your hill.
+          Scream. Scare. Banish them all before the sun breaks the spell.
+        </p>
+        <div class="menu-actions">
+          <button id="playBtn" class="btn btn-primary">Play</button>
+          <button id="howBtn" class="btn btn-ghost">How to play</button>
+        </div>
+        <div class="menu-meta">
+          <span>BEST FEAR <b id="bestScore">0</b></span>
+          <span class="meta-sep"></span>
+          <span>3D / PHONE / TABLET</span>
+        </div>
+      </div>
+
+      <footer class="menu-footer">
+        <div>EST. 1666 — HOLLOW HILL CEMETERY</div>
+        <div class="footer-hint">HEADPHONES RECOMMENDED</div>
+      </footer>
+    </main>
+
+    <section id="hud" class="hud hidden" aria-label="Game HUD">
+      <div class="hud-top">
+        <div class="hud-left">
+          <div class="brand-mini">CRIER <span>3D</span></div>
+          <div class="score-row">
+            <span class="hud-label">FEAR</span>
+            <span id="scoreValue" class="score-value">0</span>
+          </div>
+          <div id="hearts" class="hearts" aria-label="Ectoplasm">
+            <span class="heart"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M16 2c8 0 12 6 12 13v18l-4-4-4 4-4-4-4 4-4-4-3 4V15C5 8 8 2 16 2z"/><circle cx="12" cy="15" r="2.4"/><circle cx="20" cy="15" r="2.4"/></svg></span>
+            <span class="heart"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M16 2c8 0 12 6 12 13v18l-4-4-4 4-4-4-4 4-4-4-3 4V15C5 8 8 2 16 2z"/><circle cx="12" cy="15" r="2.4"/><circle cx="20" cy="15" r="2.4"/></svg></span>
+            <span class="heart"><svg viewBox="0 0 32 36" aria-hidden="true"><path d="M16 2c8 0 12 6 12 13v18l-4-4-4 4-4-4-4 4-4-4-3 4V15C5 8 8 2 16 2z"/><circle cx="12" cy="15" r="2.4"/><circle cx="20" cy="15" r="2.4"/></svg></span>
+          </div>
+        </div>
+
+        <div class="hud-center">
+          <div class="night-label"><span>NIGHT 01</span><span class="night-place">HOLLOW HILL</span></div>
+          <div class="timer-row">
+            <span class="timer-daemon">DAWN IN</span>
+            <span id="timerValue" class="timer-value">01:30</span>
+          </div>
+          <div class="dawn-track"><div id="dawnFill" class="dawn-fill"></div><div class="dawn-ticks"></div></div>
+          <div id="objective" class="objective"><span class="objective-dot"></span>SCARE THE WANDERERS BEFORE DAWN</div>
+        </div>
+
+        <div class="hud-right">
+          <button class="icon-btn sound-toggle" data-sound aria-label="Toggle sound">
+            <svg class="icon-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zm-2.5-8v2.2A6.5 6.5 0 0 1 18.5 12a6.5 6.5 0 0 1-4.5 5.8V20a8.5 8.5 0 0 0 0-16z"/></svg>
+            <svg class="icon-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm15.6 3 2.1-2.1-1.4-1.4-2.1 2.1-2.1-2.1-1.4 1.4 2.1 2.1-2.1 2.1 1.4 1.4 2.1-2.1 2.1 2.1 1.4-1.4-2.1-2.1z"/></svg>
+          </button>
+          <button id="pauseBtn" class="icon-btn" aria-label="Pause game">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="combo" class="combo hidden"><span class="combo-x">x</span><b id="comboValue">2</b><small>COMBO</small></div>
+
+      <div id="exposureWrap" class="exposure-wrap">
+        <span class="exposure-label">THE LIGHT SEES YOU</span>
+        <div class="exposure-track"><div id="exposureFill" class="exposure-fill"></div></div>
+      </div>
+
+      <div id="banner" class="banner"><div class="banner-title"></div><div class="banner-sub"></div></div>
+      <div id="toasts" class="toasts" aria-live="polite"></div>
+      <div id="floaters" class="floaters" aria-hidden="true"></div>
+
+      <div class="bottom-ui">
+        <div class="desktop-hint">
+          <span><kbd>WASD</kbd> MOVE</span>
+          <span><kbd>DRAG</kbd> LOOK</span>
+          <span><kbd>SPACE</kbd> SCREAM</span>
+          <span><kbd>E</kbd> NIGHTMARE</span>
+        </div>
+
+        <div id="joystick" class="joystick" aria-label="Move joystick">
+          <div class="joystick-ring"></div>
+          <div class="joystick-knob"></div>
+          <span class="joystick-label">MOVE</span>
+        </div>
+
+        <div class="action-cluster">
+          <div id="nightmareWrap" class="nightmare-wrap">
+            <div class="nightmare-meter"><div id="nightmareFill" class="nightmare-fill"></div></div>
+            <button id="nightmareBtn" class="nightmare-btn" aria-label="Unleash nightmare scream">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c5 0 8 3.5 8 8v10l-3-3-2 3-3-3-3 3-2-3-3 3V10c0-4.5 3-8 8-8z"/></svg>
+              <span>NIGHTMARE</span>
+            </button>
+          </div>
+          <button id="screamBtn" class="scream-btn" aria-label="Scream">
+            <span class="scream-ring"></span>
+            <span class="scream-cooldown"></span>
+            <svg class="scream-icon" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M10 19v10M18 13v22M26 8v32M34 16v16M42 21v6" />
+            </svg>
+            <span class="scream-label">SCREAM</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="tip" class="tip">
+        <span class="tip-icon">!</span>
+        <span id="tipText">Get close. Scream. Banish the fear.</span>
+      </div>
+    </section>
+
+    <div id="howModal" class="screen overlay hidden" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+      <div class="modal-card how-card">
+        <button class="modal-x" data-close="howModal" aria-label="Close">&times;</button>
+        <div class="eyebrow">FIELD NOTES / 1666</div>
+        <h2 id="howTitle" class="modal-title">HOW TO HAUNT</h2>
+        <div class="how-grid">
+          <div class="how-step">
+            <span class="step-no">01</span>
+            <h3>STALK</h3>
+            <p>Float through Hollow Hill. Stay out of the warm lantern light — it burns away your ectoplasm.</p>
+          </div>
+          <div class="how-step">
+            <span class="step-no">02</span>
+            <h3>SCREAM</h3>
+            <p>Get close and scream. Each wanderer needs two good frights before their fear breaks them.</p>
+          </div>
+          <div class="how-step">
+            <span class="step-no">03</span>
+            <h3>CHAIN</h3>
+            <p>Scare again within four seconds to build a combo. Banished souls feed your nightmare.</p>
+          </div>
+          <div class="how-step">
+            <span class="step-no">04</span>
+            <h3>UNLEASH</h3>
+            <p>Fill the nightmare meter, then unleash one scream that empties the whole graveyard.</p>
+          </div>
+        </div>
+        <div class="control-strip">
+          <div><kbd>WASD</kbd><span>MOVE</span></div>
+          <div><kbd>DRAG</kbd><span>CAMERA</span></div>
+          <div><kbd>SPACE</kbd><span>SCREAM</span></div>
+          <div><kbd>E</kbd><span>NIGHTMARE</span></div>
+          <div class="touch-only"><kbd>STICK</kbd><span>MOVE</span></div>
+          <div class="touch-only"><kbd>TAP</kbd><span>SCREAM</span></div>
+        </div>
+        <button class="btn btn-primary modal-action" data-close="howModal">Back to the hill</button>
+      </div>
+    </div>
+
+    <div id="pauseScreen" class="screen overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+      <div class="modal-card pause-card">
+        <div class="eyebrow">THE NIGHT HOLDS ITS BREATH</div>
+        <h2 id="pauseTitle" class="modal-title">PAUSED</h2>
+        <p class="modal-sub">Take a breath. The dark is patient.</p>
+        <div class="stack-actions">
+          <button id="resumeBtn" class="btn btn-primary">Resume</button>
+          <button id="pauseRestartBtn" class="btn btn-ghost">Restart night</button>
+          <button id="pauseMenuBtn" class="btn btn-quiet">Main menu</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="overScreen" class="screen overlay hidden" role="dialog" aria-modal="true" aria-labelledby="overTitle">
+      <div class="modal-card over-card">
+        <div id="overKicker" class="eyebrow">THE SUN IS COMING</div>
+        <h2 id="overTitle" class="modal-title">NIGHT OVER</h2>
+        <div id="overStars" class="over-stars" aria-label="Rating">☆☆☆</div>
+        <div class="over-rank-wrap"><span class="rank-label">RANK</span><span id="overRank" class="over-rank">C</span></div>
+        <p id="overText" class="modal-sub">The hill remembers you.</p>
+        <div class="stats-grid">
+          <div><span id="statScore" class="stat-value">0</span><span class="stat-label">FEAR</span></div>
+          <div><span id="statBanished" class="stat-value">0</span><span class="stat-label">BANISHED</span></div>
+          <div><span id="statCombo" class="stat-value">x1</span><span class="stat-label">BEST COMBO</span></div>
+        </div>
+        <div class="best-line">BEST FEAR <b id="overBest">0</b></div>
+        <div class="stack-actions">
+          <button id="againBtn" class="btn btn-primary">Play again</button>
+          <button id="overMenuBtn" class="btn btn-ghost">Main menu</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
